@@ -125,7 +125,9 @@ public class Stusystem extends JFrame implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("add"))
 		{
-			System.out.println("bbb");
+			Stuadd stu=new Stuadd(this,"添加学生信息",true);
+			Studata stu2=new Studata();
+			bg1.setModel(stu2);
 		}
 		else if(e.getActionCommand().equals("update"))
 		{
@@ -133,7 +135,47 @@ public class Stusystem extends JFrame implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("delete"))
 		{
-			System.out.println("ddd");
+			int ii=this.bg1.getSelectedRow();//记录点击的行
+			if(ii==-1)
+			{
+				JOptionPane.showMessageDialog(this,"请选中要删除的行");//弹出的信息界面
+				return;//返回调用的地方
+			}
+			Studata stu3=new Studata();
+			int st=(int)stu3.getValueAt(ii,0);//ii返回选中的行，0是第0列
+			PreparedStatement ps=null;
+			Connection ct=null;
+			ResultSet rs=null;
+			Statement sm=null;
+			
+			try
+			{
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				ct=DriverManager.getConnection("jdbc:sqlserver://localhost:1433;DatabaseName=student","sa","gzx254052834843");
+				ps=ct.prepareStatement("delete from xuesheng where number=?");
+				ps.setInt(1,st);
+				ps.executeQuery();
+			}catch(Exception e2){}
+			finally
+			{
+				try{
+					if(rs!=null)
+					{
+						rs.close();
+					}
+					if(ps!=null)
+					{
+						ps.close();
+					}
+					if(ct!=null)
+					{
+						ct.close();
+					}
+				}
+				catch(Exception e3){}
+			}
+			Studata stu4=new Studata();
+			bg1.setModel(stu4);//添加完之后就会在界面上显示出来
 		}
 	}
 
