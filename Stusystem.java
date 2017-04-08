@@ -131,7 +131,17 @@ public class Stusystem extends JFrame implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("update"))
 		{
-			System.out.println("ccc");
+			int ii=this.bg1.getSelectedRow();//记录点击的行
+			if(ii==-1)
+			{
+				JOptionPane.showMessageDialog(this,"请选中要修改的行");//弹出的信息界面
+				return;//返回调用的地方
+			}
+			Studata stu3=new Studata();
+			Stuupdate ll=new Stuupdate(this,"修改学生信息",true,stu3,ii);
+			
+			Studata stu4=new Studata();
+			bg1.setModel(stu4);
 		}
 		else if(e.getActionCommand().equals("delete"))
 		{
